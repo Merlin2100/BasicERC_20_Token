@@ -23,6 +23,10 @@
 
 **Solidity Version:** 0.8.19
 
+## Contract Address on Etherscan
+
+Explore the MagicToken contract on Etherscan: [Etherscan - MagicToken](https://sepolia.etherscan.io/address/0xF09b477f0ce50FD8f9435268D3dB683d63335Ced)
+
 ## Getting Started
 
 1. Explore the contract code and test suite for implementation details.
