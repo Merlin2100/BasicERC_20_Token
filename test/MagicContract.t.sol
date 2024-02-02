@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity 0.8.19;
 
 import {Test, StdAssertions, Vm} from "../lib/forge-std/src/Test.sol";
 import {MagicContract} from "../src/MagicContract.sol";
