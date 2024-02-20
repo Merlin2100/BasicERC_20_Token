@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.19;
 
 /// @title MagicContract: A basic ERC-20 token contract
 /// @author https://github.com/Merlin2100
