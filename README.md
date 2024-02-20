@@ -1,45 +1,66 @@
-# MagicToken: Simple ERC-20 Token
+## Foundry
 
-**MagicToken** is a straightforward implementation of the ERC-20 standard, offering essential functionalities for creating and managing a single fungible token on the Ethereum blockchain.
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-## Key Features
+Foundry consists of:
 
-- **Token Creation:** Define a new token with a chosen name, symbol, and initial supply.
-- **Token Transfer:** Send tokens from one address to another.
-- **Token Approval:** Grant permission for a third party to transfer tokens on your behalf.
-- **Token Allowance:** Set the maximum amount a third party can transfer on your behalf.
+-   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+-   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+-   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+-   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-## Benefits
+## Documentation
 
-- **Simplicity:** Focused on essential ERC-20 functionalities, making it easy to understand and use.
-- **Transparency:** Open-source code allows for public scrutiny and trust.
-- **Security:** Built on the Ethereum blockchain for a secure and transparent environment.
+https://book.getfoundry.sh/
 
-## Use Cases
+## Usage
 
-- Implementing basic token-based applications.
-- Learning and experimenting with ERC-20 token development.
-- Creating prototypes and MVPs for tokenized concepts.
+### Build
 
-**Solidity Version:** 0.8.19
+```shell
+$ forge build
+```
 
-## Contract Address on Etherscan
+### Test
 
-Explore the MagicToken contract on Etherscan: [Etherscan - MagicToken](https://sepolia.etherscan.io/address/0xF09b477f0ce50FD8f9435268D3dB683d63335Ced)
+```shell
+$ forge test
+```
 
-## Getting Started
+### Format
 
-1. Explore the contract code and test suite for implementation details.
-2. Refer to the ERC-20 standard documentation for a deeper understanding.
+```shell
+$ forge fmt
+```
 
-## Contributing
+### Gas Snapshots
 
-Feel free to contribute to the project!
+```shell
+$ forge snapshot
+```
 
-## License
+### Anvil
 
-This project is licensed under the [MIT License](LICENSE).
+```shell
+$ anvil
+```
 
-## Author
+### Deploy
 
-[Merlin2100](https://github.com/Merlin2100)
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```

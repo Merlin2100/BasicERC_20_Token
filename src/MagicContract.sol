@@ -5,14 +5,31 @@ pragma solidity 0.8.19;
 /// @author https://github.com/Merlin2100
 /// @dev This contract implements the ERC-20 standard for a basic token functionality.
 contract MagicContract {
+    /// @dev The name of the token.
     string private tokenName;
+
+    /// @dev The symbol of the token.
     string private tokenSymbol;
+
+    /// @dev The total supply of the token.
     uint256 private totalSupply;
 
+    /// @dev A private mapping that assigns the balance of each account.
     mapping(address => uint256) private balances;
+
+    /// @dev A public mapping that allows each account to grant a certain amount of tokens to another account.
     mapping(address => mapping(address => uint256)) public allowances;
 
+    /// @notice An event emitted when tokens are transferred.
+    /// @param from The address tokens are transferred from.
+    /// @param to The address tokens are transferred to.
+    /// @param value The amount of tokens transferred.
     event Transfer(address indexed from, address indexed to, uint256 value);
+    
+    /// @notice An event emitted when approval is granted for spending tokens.
+    /// @param owner The address granting approval for spending tokens.
+    /// @param spender The address allowed to spend tokens.
+    /// @param amount The amount of tokens approved for spending.
     event Approval(address indexed owner, address indexed spender, uint256 amount);
 
     /// @dev Constructor to initialize the token with a name, symbol, and total supply.
@@ -98,3 +115,4 @@ contract MagicContract {
         return true;
     }
 }
+
