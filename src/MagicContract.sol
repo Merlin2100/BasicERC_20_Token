@@ -75,7 +75,7 @@ contract MagicContract {
 
     /// @dev Get the sender's address.
     /// @return The address of the sender.
-    function getSender() public view returns(address) {
+     function getSender() public view returns(address) {
         return msg.sender;
     }
 

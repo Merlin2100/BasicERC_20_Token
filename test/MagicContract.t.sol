@@ -68,9 +68,17 @@ contract MagicContractTest is Test {
 
     /// @dev Test the failure of transfer when there are not enough tokens.
     function testFailTransferNotEnoughTokens() public {
-        uint256 value = 250;
+        vm.expectRevert("You don't have enough tokens to transfer.");
         vm.prank(addr1);
+        uint256 value = 250;
         magicContract.transfer(addr2, value);
+    }
+
+    /// @dev Test for failure when sender has insufficient balance
+    function testFailInsufficientBalanceTransfer() public {
+        vm.expectRevert("You don't have enough tokens to transfer.");
+        uint insufficientBalance = magicContract.balanceOf(address(this)) + 1;
+        magicContract.transfer(addr1, insufficientBalance);
     }
 
     /// @dev Test the transfer of tokens from one address to another with approval.
@@ -89,13 +97,16 @@ contract MagicContractTest is Test {
     /// @dev Test the failure of transferFrom when there are not enough tokens.
     function testFailTransferFromNotEnoughTokens() public {
         uint256 value = 500;
+        vm.expectRevert("You don't have enough tokens to transfer.");
         magicContract.transferFrom(addr2, addr1, value);
     }
 
     /// @dev Test the failure of transferFrom when there is insufficient allowance.
     function testFailTransferFromInsufficientAllowance() public {
-        uint256 value = 750;
         magicContract.transfer(addr1, 1_000);
+        assertTrue(magicContract.approve(addr1, 500));
+        vm.expectRevert("Insufficient allowance");
+        uint256 value = 750;
         magicContract.transferFrom(addr1, addr2, value);
     }
 }
