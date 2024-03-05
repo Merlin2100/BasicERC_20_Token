@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity 0.8.19;
 
 /// @title MagicContract: A basic ERC-20 token contract
 /// @author https://github.com/Merlin2100
@@ -11,8 +11,11 @@ contract MagicContract {
     /// @dev The symbol of the token.
     string private tokenSymbol;
 
+    /// @dev The decimals of the token.
+    uint8 private tokenDecimals;
+
     /// @dev The total supply of the token.
-    uint256 private totalSupply;
+    uint256 private tokenTotalSupply;
 
     /// @dev A private mapping that assigns the balance of each account.
     mapping(address => uint256) private balances;
@@ -35,48 +38,49 @@ contract MagicContract {
     /// @dev Constructor to initialize the token with a name, symbol, and total supply.
     /// @param _tokenName The name of the token.
     /// @param _tokenSymbol The symbol of the token.
-    /// @param _totalSupply The total supply of the token.
+    /// @param _tokenTotalSupply The total supply of the token.
     constructor(         
         string memory _tokenName,
         string memory _tokenSymbol,
-        uint256 _totalSupply
+        uint256 _tokenTotalSupply
     )  {
         tokenName = _tokenName;
         tokenSymbol = _tokenSymbol;
-        totalSupply = _totalSupply;
-        balances[msg.sender] = _totalSupply;
-        emit Transfer(address(0), msg.sender, _totalSupply);
+        tokenDecimals = 18;
+        tokenTotalSupply = _tokenTotalSupply * 10 ** tokenDecimals;
+        balances[msg.sender] = tokenTotalSupply;
+        emit Transfer(address(0), msg.sender, _tokenTotalSupply);
     }
 
     /// @dev Get the name of the token.
     /// @return The name of the token.
-    function getTokenName() public view  returns (string memory)  {
+    function name() public view  returns (string memory)  {
         return tokenName;
     }
 
     /// @dev Get the symbol of the token.
     /// @return The symbol of the token.
-    function getTokenSymbol() public view  returns (string memory)  {
+    function symbol() public view  returns (string memory)  {
         return tokenSymbol;
+    }
+
+    /// @dev Get the decimal of the token.
+    /// @return The decimal of the token.
+    function decimals() public view  returns (uint8)  {
+        return tokenDecimals;
     }
 
     /// @dev Get the total supply of the token.
     /// @return The total supply of the token.
-    function getTotalSupply() public view  returns (uint256)  {
-        return totalSupply;
+    function totalSupply() public view  returns (uint256)  {
+        return (tokenTotalSupply / 10 ** tokenDecimals);
     }
 
     /// @dev Get the balance of the specified owner.
     /// @param _owner The address of the owner.
     /// @return The balance of the specified owner.
     function balanceOf(address _owner) public view returns(uint256) {
-        return balances[_owner];
-    }
-
-    /// @dev Get the sender's address.
-    /// @return The address of the sender.
-     function getSender() public view returns(address) {
-        return msg.sender;
+        return (balances[_owner] / 10 ** tokenDecimals);
     }
 
     /// @dev Transfer tokens from the sender to the specified recipient.
@@ -84,10 +88,11 @@ contract MagicContract {
     /// @param amount The amount of tokens to transfer.
     /// @return A boolean indicating whether the transfer was successful or not.
     function transfer(address recipient, uint256 amount) public returns (bool) {
-        require(amount <= balances[msg.sender], "You don't have enough tokens to transfer.");
-        balances[msg.sender] -= amount;
-        balances[recipient] += amount;
-        emit Transfer(msg.sender, recipient, amount);
+        uint256 deciamlsAmount = amount * 10 ** tokenDecimals;
+        require(deciamlsAmount <= balances[msg.sender], "You don't have enough tokens to transfer.");
+        balances[msg.sender] -= deciamlsAmount;
+        balances[recipient] += deciamlsAmount;
+        emit Transfer(msg.sender, recipient, deciamlsAmount);
         return true;
     }
 
@@ -97,11 +102,12 @@ contract MagicContract {
     /// @param amount The amount of tokens to transfer.
     /// @return A boolean indicating whether the transfer was successful or not.
     function transferFrom(address from, address to, uint256 amount) public returns (bool) {
-        require(amount <= balances[from], "You don't have enough tokens to transfer.");
-        require(allowances[msg.sender][from] >= amount, "Insufficient allowance");
-        balances[from] -= amount;
-        balances[to] += amount;
-        emit Transfer(from, to, amount);
+        uint256 decimalsAmont = amount * 10 ** tokenDecimals;
+        require(decimalsAmont <= balances[from], "You don't have enough tokens to transfer.");
+        require(allowances[msg.sender][from] >= decimalsAmont, "Insufficient allowance");
+        balances[from] -= decimalsAmont;
+        balances[to] += decimalsAmont;
+        emit Transfer(from, to, decimalsAmont);
         return true;
     }
 
@@ -110,8 +116,9 @@ contract MagicContract {
     /// @param amount The amount of tokens the spender is allowed to spend.
     /// @return A boolean indicating whether the approval was successful or not.
     function approve(address spender, uint256 amount) public returns (bool) {
-        allowances[msg.sender][spender] = amount;
-        emit Approval(msg.sender, spender, amount);
+        uint256 decimalsAmount = amount * 10 ** tokenDecimals;
+        allowances[msg.sender][spender] = decimalsAmount;
+        emit Approval(msg.sender, spender, decimalsAmount);
         return true;
     }
 }

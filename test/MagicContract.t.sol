@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import {Test, StdAssertions, Vm} from "../lib/forge-std/src/Test.sol";
+import {Test, StdAssertions, Vm, console2} from "../lib/forge-std/src/Test.sol";
 import {MagicContract} from "../src/MagicContract.sol";
 
 /// @title MagicContractTest: A test suite for the MagicContract contract
@@ -15,6 +15,7 @@ contract MagicContractTest is Test {
     string tokenName = "MagicCoinToken";
     string tokenSymbol = "MCT";
     uint256 totalSupply = 10_000_000;
+    uint256 constant deciamls = 18;
 
     /// @dev Set up the MagicContract instance before each test.
     function setUp() public {
@@ -27,23 +28,27 @@ contract MagicContractTest is Test {
 
     /// @dev Test the functionality to get the token name.
     function testTokenName() public {
-        assertEq(magicContract.getTokenName(), tokenName);
+        assertEq(magicContract.name(), tokenName);
     }
 
     /// @dev Test the functionality to get the token symbol.
     function testTokenSymbol() public {
-        assertEq(magicContract.getTokenSymbol(), tokenSymbol);
+        assertEq(magicContract.symbol(), tokenSymbol);
+    }
+
+    /// @dev Test the functionality to get the decimals of the token.
+    function testDeciamls() public {
+        assertEq(magicContract.decimals(), deciamls);
     }
 
     /// @dev Test the functionality to get the total supply of the token.
     function testTotalSupply() public {
-        assertEq(magicContract.getTotalSupply(), totalSupply);
+        assertEq(magicContract.totalSupply(), totalSupply);
     }
 
     /// @dev Test the balance of the sender.
     function testBalanceOfSender() public view {
-        address sender = magicContract.getSender();
-        uint256 balance = magicContract.balanceOf(sender);
+        uint256 balance = magicContract.balanceOf(address(this));
         assert(balance == totalSupply);
     }
 
@@ -58,8 +63,11 @@ contract MagicContractTest is Test {
 
     /// @dev Test the transfer of tokens between addresses.
     function testTransfer() public {
-        address sender = magicContract.getSender();
+        address sender = (address(this));
         uint256 value = 1_000;
+
+        console2.log( "addr1-value: ", magicContract.balanceOf(addr1) );
+        console2.log( "sender-vaule: ", magicContract.balanceOf(sender) );
 
         assertTrue(magicContract.transfer(addr1, value));
         assertEq(magicContract.balanceOf(sender), totalSupply - value);
